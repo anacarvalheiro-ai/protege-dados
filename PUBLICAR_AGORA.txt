@@ -1,0 +1,12 @@
+PUBLICAÇÃO RÁPIDA
+
+1. Extraia este ZIP.
+2. Crie no GitHub um repositório público vazio chamado: protege-dados
+3. Use GitHub Desktop ou terminal para enviar TODO O CONTEÚDO desta pasta.
+4. No GitHub: Settings > Pages > Source: GitHub Actions.
+5. Em Actions, aguarde os workflows "Testes técnicos" e "Publicar portal no GitHub Pages".
+6. Copie as duas URLs:
+   - repositório: https://github.com/SEU-USUARIO/protege-dados
+   - portal: https://SEU-USUARIO.github.io/protege-dados/
+7. Substitua SEU-USUARIO nos badges do README após saber seu nome de usuário.
+8. Registre as URLs no Word e no formulário da CGU.
