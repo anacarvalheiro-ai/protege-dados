@@ -1,95 +1,200 @@
-# Protege.Dados
+# Protege.Dados – Observatório de Proteção Digital Infantojuvenil
 
-**Observatório de Proteção Digital Infantojuvenil**
+## Projeto inscrito no Concurso Nacional de Dados Abertos da Controladoria-Geral da União (CGU)
 
-[![Testes](https://github.com/SEU-USUARIO/protege-dados/actions/workflows/tests.yml/badge.svg)](https://github.com/SEU-USUARIO/protege-dados/actions/workflows/tests.yml)
-[![GitHub Pages](https://github.com/SEU-USUARIO/protege-dados/actions/workflows/pages.yml/badge.svg)](https://github.com/SEU-USUARIO/protege-dados/actions/workflows/pages.yml)
-[![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](LICENSE)
-[![IVPD](https://img.shields.io/badge/IVPD-v1.0-gold.svg)](docs/METODOLOGIA.md)
+O **Protege.Dados** é uma iniciativa de inovação pública voltada à proteção de crianças e adolescentes no ambiente digital por meio da reutilização estratégica de dados abertos governamentais.
 
-O **Protege.Dados** transforma dados públicos em indicadores territoriais acessíveis, auditáveis e responsáveis para apoiar transparência, pesquisa. educação digital e políticas de proteção de crianças e adolescentes.
+O projeto integra dados públicos, indicadores territoriais e metodologias de governança de dados para produzir evidências capazes de subsidiar políticas públicas, apoiar gestores, pesquisadores, educadores e organizações da sociedade civil na prevenção de riscos digitais que afetam crianças e adolescentes.
 
-> **Leitura responsável:** a IVPD não é ranking. não mede prevalência e não classifica pessoas. Denúncias são registros administrativos e dependem de cobertura, acesso aos canais e práticas de notificação.
+---
 
-## Resultados da versão 1.0
+# Objetivos
 
-| Evidência | Resultado |
-|---|---:|
-| Unidades federativas | 27 |
-| Fontes integradas no índice | 3 |
-| Indicadores publicados | 3 |
-| Escolas ativas analisadas | 181.065 |
-| Matrículas | 47.088.922 |
-| Escolas com internet | 166.771 |
-| Escolas com banda larga | 145.195 |
-| Denúncias únicas no recorte de 2025 | 294.592 |
-| Municípios com registro em 2025 | 4.900 |
-| Testes técnicos aprovados | 7 de 7 |
+- Promover a reutilização de dados abertos governamentais.
+- Apoiar a formulação de políticas públicas baseadas em evidências.
+- Fortalecer a transparência e o controle social.
+- Disponibilizar indicadores de proteção digital.
+- Incentivar a inovação em Governo Aberto.
+- Contribuir para a implementação da Estratégia Federal de Dados.
 
-## Portal público
+---
 
-Após a primeira publicação. o portal ficará em:
+# Portal do Projeto
 
-`https://SEU-USUARIO.github.io/protege-dados/`
+O projeto está publicado por meio do GitHub Pages.
 
-O site é publicado automaticamente pelo workflow `.github/workflows/pages.yml`.
+**Portal oficial**
 
-## Estrutura
+https://anacarvalheiro-ai.github.io/protege-dados/
+
+---
+
+# Repositório Público
+
+Todo o código-fonte, documentação técnica, metodologia, relatórios e evidências encontram-se disponíveis neste repositório público.
+
+São disponibilizados:
+
+- código-fonte;
+- documentação técnica;
+- metodologia científica;
+- arquitetura da solução;
+- governança dos dados;
+- checklist de publicação;
+- memorial técnico;
+- relatório técnico;
+- evidências da iniciativa;
+- documentação para submissão ao Concurso de Dados Abertos CGU.
+
+---
+
+# Arquitetura Tecnológica
+
+A solução utiliza:
+
+- Python
+- GitHub
+- GitHub Pages
+- GitHub Actions
+- HTML5
+- CSS3
+- JavaScript
+- Markdown
+
+---
+
+# Integração Contínua (CI/CD)
+
+O projeto utiliza **GitHub Actions** para publicação automática.
+
+Fluxo automatizado:
+
+Desenvolvimento
+
+↓
+
+Versionamento Git
+
+↓
+
+GitHub
+
+↓
+
+GitHub Actions
+
+↓
+
+Deploy Automático
+
+↓
+
+GitHub Pages
+
+↓
+
+Portal Público
+
+Essa estratégia garante:
+
+- rastreabilidade;
+- transparência;
+- reprodutibilidade;
+- versionamento;
+- atualização contínua.
+
+---
+
+# Governança e Transparência
+
+O projeto adota boas práticas de desenvolvimento aberto:
+
+- versionamento completo;
+- repositório público;
+- documentação técnica;
+- controle de alterações;
+- código aberto;
+- rastreabilidade das evidências;
+- integração contínua.
+
+---
+
+# Estrutura do Projeto
 
 ```text
-.
-├── .github/           automações. Pages e templates
-├── config/            parâmetros de fontes e do índice
-├── data/processed/    agregados públicos
-├── docs/              método, governança. acessibilidade e relatórios
-├── evidence/          manifestos, hashes e testes
-├── src/               pipeline Python
-├── tests/             testes automatizados
-└── web/               portal publicado no GitHub Pages
+config/
+data/
+docs/
+evidence/
+src/
+tests/
+web/
+
+README.md
+LICENSE
+CHANGELOG.md
 ```
 
-## Metodologia
+---
 
-O eixo experimental combina:
+# Documentação
 
-- taxa de denúncias do Disque 100 em 2025 — **50%**;
-- déficit de internet escolar no Censo Escolar 2024 — **25%**;
-- déficit de banda larga escolar no Censo Escolar 2024 — **25%**.
+A documentação completa encontra-se em:
 
-A normalização utiliza limites robustos nos percentis 5 e 95. O eixo de capacidade territorial de proteção permanece não publicado até existir fonte territorial comparável e validada.
+- Arquitetura
+- Metodologia
+- Governança de Dados
+- Fontes
+- Checklist de Publicação
+- Memorial Técnico
+- Relatório Técnico
+- Caderno de Submissão
 
-Leia a [metodologia completa](docs/METODOLOGIA.md).
+---
 
-## Executar testes
+# Público-alvo
 
-```bash
-python -m venv .venv
-pip install -e .
-pytest -q
-```
+- Controladoria-Geral da União
+- órgãos públicos
+- pesquisadores
+- universidades
+- escolas
+- organizações da sociedade civil
+- gestores públicos
+- profissionais da infância e adolescência
 
-## Integridade e rastreabilidade
+---
 
-- [Manifesto das fontes fornecidas](evidence/manifesto_fontes_fornecidas.json)
-- [Manifesto dos derivados e hashes](evidence/manifesto_derivados_sha256.json)
-- [Resumo dos resultados](evidence/resumo_resultados.json)
-- [Testes técnicos](evidence/testes_tecnicos.json)
+# Resultados Esperados
 
-## Documentos
+- fortalecimento da cultura de dados abertos;
+- incentivo à inovação pública;
+- apoio à tomada de decisão baseada em evidências;
+- promoção da transparência;
+- melhoria das políticas públicas voltadas à proteção digital infantojuvenil.
 
-- [Projeto técnico final](docs/relatorios/Projeto_Protege_Dados_CGU_2026_Final_Com_Evidencias.pdf)
-- [Relatório técnico de evidências](docs/relatorios/Relatorio_Tecnico_Evidencias_Protege_Dados.pdf)
-- [Caderno de submissão](docs/relatorios/Caderno_de_Submissao_Protege_Dados.pdf)
+---
 
-## Autoria e contato
+# Licença
 
-**Ana Maria Carvalheiro**  
-Cientista da Computação  
-**Pretos Na Era Digital Ltda.**  
-Brasília/DF  
-Contato: anacarvalheiro@gmail.com
+Consulte o arquivo LICENSE deste repositório.
 
-## Licenças
+---
 
-- Código: [MIT](LICENSE)
-- Dados derivados e atribuição: [DATA_LICENSE.md](DATA_LICENSE.md)
+# Autoria
+
+**Ana Maria Carvalheiro**
+
+Cientista da Computação
+
+Especialista em Governança de Dados, Proteção Digital e Inteligência Artificial
+
+Pretos Na Era Digital Ltda.
+
+Brasília – DF – Brasil
+
+---
+
+## Concurso Nacional de Dados Abertos – CGU
+
+Projeto desenvolvido para participação no Concurso Nacional de Dados Abertos promovido pela Controladoria-Geral da União (CGU), alinhado aos princípios de Governo Aberto, transparência pública, reutilização de dados governamentais e inovação baseada em evidências.
