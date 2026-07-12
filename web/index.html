@@ -1,1 +1,1405 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Protege.Dados — IVPD</title><link rel="stylesheet" href="assets/style.css"></head><body><a class="skip" href="#main">Pular para o conteúdo</a><header><div><small>PRETOS NA ERA DIGITAL LTDA.</small><h1>PROTEGE.<span>DADOS</span></h1><p>Observatório de Proteção Digital Infantojuvenil</p></div><div class="seal">MVP FUNCIONAL<br>IVPD v1.0</div></header><nav><a href="#painel">Painel</a><a href="#metodo">Metodologia</a><a href="#fontes">Fontes</a></nav><main id="main"><section class="notice"><strong>Leitura responsável:</strong> o índice não é ranking, não mede prevalência e não classifica pessoas. Denúncias representam registros administrativos.</section><section id="painel"><div class="top"><div><small>VISÃO POR UF</small><h2>Indicadores territoriais</h2></div><label>Unidade Federativa<select id="uf"></select></label></div><div class="cards"><article><span>Eixo de vulnerabilidade</span><b id="vuln">—</b><small>escala experimental 0–100</small></article><article><span>Taxa de denúncias</span><b id="taxa">—</b><small>por 100 mil habitantes</small></article><article><span>Escolas com internet</span><b id="internet">—</b><small>Censo Escolar 2024</small></article></div><div class="panel"><h3>Componentes normalizados</h3><div id="bars"></div></div><button id="download">Baixar recorte CSV</button></section><section id="metodo"><h2>Metodologia</h2><p>O eixo experimental combina taxa de denúncias do Disque 100 em 2025 (50%), déficit de internet escolar em 2024 (25%) e déficit de banda larga escolar em 2024 (25%). A normalização utiliza limites robustos nos percentis 5 e 95. O eixo de capacidade de proteção não é publicado enquanto não houver fonte comparável validada.</p></section><section id="fontes"><h2>Fontes efetivamente processadas</h2><ul><li>Disque 100: primeiro e segundo semestres de 2025; segundo semestre de 2024 para referência histórica.</li><li>IBGE: estimativas municipais de população de 2024 e 2025.</li><li>Inep: Microdados do Censo Escolar 2024.</li></ul></section></main><footer>Responsável: Ana Maria Carvalheiro · Pretos Na Era Digital Ltda. · Brasília/DF</footer><script src="assets/app.js"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <meta
+    name="description"
+    content="Protege.Dados — Observatório de Proteção Digital Infantojuvenil. Plataforma pública de reúso responsável de dados abertos."
+  >
+
+  <meta
+    name="author"
+    content="Ana Maria Carvalheiro — Pretos Na Era Digital Ltda."
+  >
+
+  <meta
+    name="theme-color"
+    content="#062f57"
+  >
+
+  <title>
+    Protege.Dados — Observatório de Proteção Digital Infantojuvenil
+  </title>
+
+  <!-- Mantém os estilos originais do projeto -->
+  <link
+    rel="stylesheet"
+    href="assets/style.css"
+  >
+
+  <!-- Estilos institucionais complementares -->
+  <style>
+    :root {
+      --color-primary: #073b68;
+      --color-primary-dark: #042744;
+      --color-primary-light: #0b6db5;
+      --color-accent: #d4a82f;
+      --color-background: #f3f7fb;
+      --color-surface: #ffffff;
+      --color-text: #14283c;
+      --color-muted: #52687d;
+      --color-border: #d5e1ec;
+      --color-success: #14733c;
+      --shadow-soft: 0 0.75rem 2rem rgba(13, 48, 80, 0.1);
+      --radius-large: 1rem;
+      --radius-medium: 0.7rem;
+      --content-width: 74rem;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 5.5rem;
+    }
+
+    body {
+      margin: 0;
+      background: var(--color-background);
+      color: var(--color-text);
+      font-family:
+        Inter,
+        ui-sans-serif,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--color-primary-light);
+    }
+
+    a:hover {
+      text-decoration-thickness: 0.12rem;
+    }
+
+    button,
+    select {
+      font: inherit;
+    }
+
+    .skip {
+      position: fixed;
+      top: -5rem;
+      left: 1rem;
+      z-index: 9999;
+      padding: 0.75rem 1rem;
+      border-radius: 0.4rem;
+      background: #ffffff;
+      color: #000000;
+      font-weight: 700;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .skip:focus {
+      top: 1rem;
+    }
+
+    /*
+     * Cabeçalho institucional
+     */
+
+    .institutional-header {
+      background:
+        radial-gradient(
+          circle at top right,
+          rgba(255, 255, 255, 0.13),
+          transparent 34%
+        ),
+        linear-gradient(
+          135deg,
+          var(--color-primary-dark),
+          var(--color-primary-light)
+        );
+      color: #ffffff;
+    }
+
+    .institutional-header__content {
+      width: min(
+        calc(100% - 2rem),
+        var(--content-width)
+      );
+      margin: 0 auto;
+      padding: 2.6rem 0 2.25rem;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+    }
+
+    .brand-company {
+      margin: 0 0 0.4rem;
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    .institutional-header h1 {
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(2.3rem, 6vw, 4.2rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+    }
+
+    .institutional-header h1 span {
+      color: #9fd2f5;
+    }
+
+    .brand-subtitle {
+      margin: 0.85rem 0 0;
+      color: rgba(255, 255, 255, 0.94);
+      font-size: clamp(1rem, 2vw, 1.35rem);
+      font-weight: 600;
+    }
+
+    .seal {
+      min-width: 9rem;
+      padding: 0.75rem 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      border-radius: 0.65rem;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-size: 0.78rem;
+      font-weight: 800;
+      line-height: 1.45;
+      text-align: center;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      backdrop-filter: blur(0.4rem);
+    }
+
+    .project-presentation {
+      max-width: 62rem;
+      margin-top: 2rem;
+    }
+
+    .project-eyebrow {
+      margin: 0 0 0.55rem;
+      color: #b9ddf5;
+      font-size: 0.8rem;
+      font-weight: 800;
+      letter-spacing: 0.09em;
+      text-transform: uppercase;
+    }
+
+    .project-presentation h2 {
+      margin: 0;
+      color: #ffffff;
+      font-size: clamp(1.45rem, 3.4vw, 2.35rem);
+      line-height: 1.2;
+    }
+
+    .project-description {
+      margin: 1rem 0 0;
+      color: rgba(255, 255, 255, 0.93);
+      font-size: 1.04rem;
+      line-height: 1.75;
+    }
+
+    .project-status {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin-top: 1.5rem;
+    }
+
+    .project-status span {
+      padding: 0.47rem 0.72rem;
+      border: 1px solid rgba(255, 255, 255, 0.27);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      font-size: 0.8rem;
+    }
+
+    .project-status strong {
+      font-weight: 800;
+    }
+
+    .quick-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.65rem;
+      margin-top: 1.5rem;
+    }
+
+    .quick-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 2.75rem;
+      padding: 0.62rem 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      border-radius: 0.5rem;
+      color: #ffffff;
+      font-size: 0.9rem;
+      font-weight: 750;
+      text-decoration: none;
+      transition:
+        transform 150ms ease,
+        background-color 150ms ease,
+        color 150ms ease;
+    }
+
+    .quick-link:hover,
+    .quick-link:focus-visible {
+      transform: translateY(-2px);
+      background: #ffffff;
+      color: var(--color-primary-dark);
+    }
+
+    .quick-link--primary {
+      border-color: #ffffff;
+      background: #ffffff;
+      color: var(--color-primary-dark);
+    }
+
+    /*
+     * Navegação principal
+     */
+
+    .main-navigation {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--color-border);
+      background: rgba(255, 255, 255, 0.96);
+      box-shadow: 0 0.25rem 1rem rgba(15, 43, 70, 0.06);
+      backdrop-filter: blur(0.75rem);
+    }
+
+    .main-navigation__content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      width: min(
+        calc(100% - 2rem),
+        var(--content-width)
+      );
+      margin: 0 auto;
+      padding: 0.55rem 0;
+    }
+
+    .main-navigation a {
+      padding: 0.6rem 0.75rem;
+      border-radius: 0.4rem;
+      color: var(--color-primary);
+      font-size: 0.9rem;
+      font-weight: 750;
+      text-decoration: none;
+    }
+
+    .main-navigation a:hover,
+    .main-navigation a:focus-visible {
+      background: #eaf3fa;
+    }
+
+    /*
+     * Conteúdo principal
+     */
+
+    main {
+      width: min(
+        calc(100% - 2rem),
+        var(--content-width)
+      );
+      margin: 0 auto;
+      padding: 2rem 0 3.5rem;
+    }
+
+    section {
+      scroll-margin-top: 5.5rem;
+    }
+
+    .notice {
+      margin-bottom: 1.6rem;
+      padding: 1rem 1.15rem;
+      border-left: 0.35rem solid var(--color-accent);
+      border-radius: 0 var(--radius-medium) var(--radius-medium) 0;
+      background: #fff8df;
+      color: #413710;
+      line-height: 1.65;
+    }
+
+    /*
+     * Painel
+     */
+
+    #painel {
+      padding: 1.4rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-large);
+      background: var(--color-surface);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .top {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 1.5rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .top small {
+      color: var(--color-primary-light);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+    }
+
+    .top h2 {
+      margin: 0.2rem 0 0;
+      color: var(--color-text);
+      font-size: clamp(1.65rem, 4vw, 2.3rem);
+    }
+
+    .top label {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      min-width: 10.5rem;
+      color: var(--color-text);
+      font-size: 0.86rem;
+      font-weight: 750;
+    }
+
+    .top select {
+      min-height: 2.6rem;
+      padding: 0.45rem 2.2rem 0.45rem 0.65rem;
+      border: 1px solid #9eb2c4;
+      border-radius: 0.45rem;
+      background: #ffffff;
+      color: var(--color-text);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(
+        3,
+        minmax(0, 1fr)
+      );
+      gap: 0.9rem;
+    }
+
+    .cards article {
+      display: flex;
+      flex-direction: column;
+      min-height: 8rem;
+      padding: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0.8rem;
+      background:
+        linear-gradient(
+          180deg,
+          #ffffff,
+          #f8fbfe
+        );
+    }
+
+    .cards article span {
+      color: var(--color-text);
+      font-size: 0.92rem;
+    }
+
+    .cards article b {
+      display: block;
+      margin: 0.35rem 0;
+      color: #0866aa;
+      font-size: clamp(1.9rem, 4vw, 2.65rem);
+      line-height: 1.1;
+    }
+
+    .cards article small {
+      margin-top: auto;
+      color: var(--color-muted);
+    }
+
+    .panel {
+      margin-top: 1rem;
+      padding: 1rem;
+      border: 1px solid var(--color-border);
+      border-radius: 0.8rem;
+      background: #ffffff;
+    }
+
+    .panel h3 {
+      margin-top: 0;
+    }
+
+    #bars {
+      min-height: 2rem;
+    }
+
+    #download {
+      min-height: 2.75rem;
+      margin-top: 1rem;
+      padding: 0.65rem 1rem;
+      border: 0;
+      border-radius: 0.5rem;
+      background: var(--color-primary);
+      color: #ffffff;
+      font-weight: 800;
+      cursor: pointer;
+      transition:
+        transform 150ms ease,
+        background-color 150ms ease;
+    }
+
+    #download:hover,
+    #download:focus-visible {
+      transform: translateY(-2px);
+      background: var(--color-primary-dark);
+    }
+
+    /*
+     * Downloads
+     */
+
+    .downloads-section,
+    .content-section {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-large);
+      background: var(--color-surface);
+    }
+
+    .section-eyebrow {
+      margin: 0;
+      color: var(--color-primary-light);
+      font-size: 0.78rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .downloads-section h2,
+    .content-section h2 {
+      margin: 0.25rem 0 0.5rem;
+      font-size: clamp(1.45rem, 3vw, 2rem);
+    }
+
+    .section-description {
+      max-width: 50rem;
+      margin: 0;
+      color: var(--color-muted);
+    }
+
+    .download-grid {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(13.5rem, 1fr)
+      );
+      gap: 0.9rem;
+      margin-top: 1.25rem;
+    }
+
+    .download-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 8.3rem;
+      padding: 1rem;
+      border: 1px solid #cbd9e6;
+      border-radius: 0.75rem;
+      background: #f7fbfe;
+      color: var(--color-text);
+      text-decoration: none;
+      transition:
+        transform 150ms ease,
+        border-color 150ms ease,
+        box-shadow 150ms ease;
+    }
+
+    .download-card:hover,
+    .download-card:focus-visible {
+      transform: translateY(-3px);
+      border-color: var(--color-primary-light);
+      box-shadow: 0 0.7rem 1.5rem rgba(10, 76, 126, 0.12);
+    }
+
+    .download-card strong {
+      margin-bottom: 0.45rem;
+      color: var(--color-primary);
+      font-size: 1rem;
+    }
+
+    .download-card span {
+      color: var(--color-muted);
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+
+    .download-card__format {
+      margin-top: auto;
+      padding-top: 0.8rem;
+      color: var(--color-primary-light);
+      font-size: 0.72rem;
+      font-weight: 850;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    /*
+     * Metodologia e automação
+     */
+
+    .content-section p,
+    .content-section li {
+      line-height: 1.7;
+    }
+
+    .automation-note {
+      margin-top: 1.25rem;
+      padding: 1.15rem 1.25rem;
+      border-left: 0.35rem solid var(--color-primary-light);
+      border-radius: 0 var(--radius-medium) var(--radius-medium) 0;
+      background: #edf6fc;
+    }
+
+    .automation-note h3 {
+      margin: 0 0 0.5rem;
+      color: var(--color-primary-dark);
+    }
+
+    .automation-note p {
+      margin: 0;
+    }
+
+    .automation-note a {
+      display: inline-block;
+      margin-top: 0.75rem;
+      font-weight: 750;
+    }
+
+    .sources-list {
+      padding-left: 1.3rem;
+    }
+
+    .sources-list li + li {
+      margin-top: 0.5rem;
+    }
+
+    /*
+     * Rodapé
+     */
+
+    .institutional-footer {
+      border-top: 0.35rem solid var(--color-primary-light);
+      background: var(--color-primary-dark);
+      color: #ffffff;
+    }
+
+    .institutional-footer__content {
+      width: min(
+        calc(100% - 2rem),
+        var(--content-width)
+      );
+      margin: 0 auto;
+      padding: 2.1rem 0;
+    }
+
+    .institutional-footer__title {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+
+    .institutional-footer__subtitle {
+      margin: 0.25rem 0 0;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .footer-metadata {
+      display: grid;
+      grid-template-columns: repeat(
+        auto-fit,
+        minmax(10rem, 1fr)
+      );
+      gap: 0.7rem;
+      margin: 1.3rem 0;
+    }
+
+    .footer-metadata div {
+      padding: 0.8rem;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 0.55rem;
+      background: rgba(255, 255, 255, 0.06);
+    }
+
+    .footer-metadata dt {
+      color: rgba(255, 255, 255, 0.72);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .footer-metadata dd {
+      margin: 0.2rem 0 0;
+      color: #ffffff;
+    }
+
+    .institutional-footer a {
+      color: #ffffff;
+    }
+
+    .footer-notice,
+    .footer-author {
+      max-width: 62rem;
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 0.86rem;
+      line-height: 1.6;
+    }
+
+    .footer-author {
+      margin-top: 1rem;
+    }
+
+    /*
+     * Foco e acessibilidade
+     */
+
+    a:focus-visible,
+    button:focus-visible,
+    select:focus-visible {
+      outline: 0.2rem solid #ffcd4b;
+      outline-offset: 0.2rem;
+    }
+
+    /*
+     * Responsividade
+     */
+
+    @media (max-width: 820px) {
+      .brand-row {
+        flex-direction: column;
+      }
+
+      .seal {
+        align-self: flex-start;
+      }
+
+      .top {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .top label {
+        width: 100%;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .institutional-header__content {
+        padding-top: 1.7rem;
+      }
+
+      .quick-links {
+        flex-direction: column;
+      }
+
+      .quick-link {
+        width: 100%;
+      }
+
+      .main-navigation__content {
+        overflow-x: auto;
+        flex-wrap: nowrap;
+      }
+
+      #painel,
+      .downloads-section,
+      .content-section {
+        padding: 1rem;
+      }
+
+      .download-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <a
+    class="skip"
+    href="#main"
+  >
+    Pular para o conteúdo
+  </a>
+
+  <header class="institutional-header">
+    <div class="institutional-header__content">
+      <div class="brand-row">
+        <div>
+          <p class="brand-company">
+            Pretos Na Era Digital Ltda.
+          </p>
+
+          <h1>
+            PROTEGE.<span>DADOS</span>
+          </h1>
+
+          <p class="brand-subtitle">
+            Observatório de Proteção Digital Infantojuvenil
+          </p>
+        </div>
+
+        <div
+          class="seal"
+          aria-label="MVP funcional, IVPD versão 1.0"
+        >
+          MVP funcional
+          <br>
+          IVPD v1.0
+        </div>
+      </div>
+
+      <div class="project-presentation">
+        <p class="project-eyebrow">
+          Candidatura ao 2º Concurso de Reúso de Dados Abertos da CGU
+        </p>
+
+        <h2>
+          Dados públicos transformados em informação territorial
+          compreensível, auditável e reutilizável
+        </h2>
+
+        <p class="project-description">
+          Plataforma pública destinada ao reúso responsável de dados
+          governamentais para apoiar transparência, pesquisa, controle
+          social, educação digital e políticas públicas voltadas à
+          proteção de crianças e adolescentes.
+        </p>
+
+        <div
+          class="project-status"
+          aria-label="Informações técnicas do projeto"
+        >
+          <span>
+            <strong>Versão:</strong>
+            IVPD v1.0
+          </span>
+
+          <span>
+            <strong>Atualização:</strong>
+            12/07/2026
+          </span>
+
+          <span>
+            <strong>Licença:</strong>
+            MIT
+          </span>
+
+          <span>
+            <strong>Hospedagem:</strong>
+            GitHub Pages
+          </span>
+
+          <span>
+            <strong>Pipeline:</strong>
+            GitHub Actions
+          </span>
+        </div>
+
+        <nav
+          class="quick-links"
+          aria-label="Acessos rápidos do projeto"
+        >
+          <a
+            class="quick-link quick-link--primary"
+            href="https://github.com/anacarvalheiro-ai/protege-dados"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Repositório GitHub
+          </a>
+
+          <a
+            class="quick-link"
+            href="https://github.com/anacarvalheiro-ai/protege-dados/tree/main/docs"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Documentação
+          </a>
+
+          <a
+            class="quick-link"
+            href="https://github.com/anacarvalheiro-ai/protege-dados/blob/main/docs/submissao-cgu-2026/01_Memorial_Tecnico_Protege_Dados_ABNT_Atualizado.docx"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Memorial técnico
+          </a>
+
+          <a
+            class="quick-link"
+            href="https://github.com/anacarvalheiro-ai/protege-dados/blob/main/docs/submissao-cgu-2026/03_Relatorio_Tecnico_Evidencias_ABNT_Atualizado.docx"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Relatório de evidências
+          </a>
+
+          <a
+            class="quick-link"
+            href="#downloads"
+          >
+            Downloads
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <nav
+    class="main-navigation"
+    aria-label="Navegação principal"
+  >
+    <div class="main-navigation__content">
+      <a href="#painel">
+        Painel
+      </a>
+
+      <a href="#downloads">
+        Downloads
+      </a>
+
+      <a href="#metodo">
+        Metodologia
+      </a>
+
+      <a href="#fontes">
+        Fontes
+      </a>
+
+      <a href="#governanca">
+        Governança
+      </a>
+    </div>
+  </nav>
+
+  <main id="main">
+    <section
+      class="notice"
+      aria-label="Aviso de leitura responsável"
+    >
+      <strong>Leitura responsável:</strong>
+      a IVPD é um instrumento experimental de apoio à análise
+      territorial. Não constitui ranking, não mede prevalência,
+      não identifica pessoas e não realiza previsão individual.
+      As denúncias são registros administrativos influenciados
+      por cobertura, acesso aos canais, práticas de notificação
+      e possíveis situações de subnotificação.
+    </section>
+
+    <section
+      id="painel"
+      aria-labelledby="painel-title"
+    >
+      <div class="top">
+        <div>
+          <small>
+            VISÃO POR UNIDADE FEDERATIVA
+          </small>
+
+          <h2 id="painel-title">
+            Indicadores territoriais
+          </h2>
+        </div>
+
+        <label for="uf">
+          Unidade Federativa
+
+          <select
+            id="uf"
+            aria-label="Selecionar unidade federativa"
+          ></select>
+        </label>
+      </div>
+
+      <div class="cards">
+        <article>
+          <span>
+            Eixo de vulnerabilidade
+          </span>
+
+          <b
+            id="vuln"
+            aria-live="polite"
+          >
+            —
+          </b>
+
+          <small>
+            escala experimental de 0 a 100
+          </small>
+        </article>
+
+        <article>
+          <span>
+            Taxa de denúncias
+          </span>
+
+          <b
+            id="taxa"
+            aria-live="polite"
+          >
+            —
+          </b>
+
+          <small>
+            por 100 mil habitantes
+          </small>
+        </article>
+
+        <article>
+          <span>
+            Escolas com internet
+          </span>
+
+          <b
+            id="internet"
+            aria-live="polite"
+          >
+            —
+          </b>
+
+          <small>
+            Censo Escolar 2024
+          </small>
+        </article>
+      </div>
+
+      <div class="panel">
+        <h3>
+          Componentes normalizados
+        </h3>
+
+        <div
+          id="bars"
+          aria-live="polite"
+        ></div>
+      </div>
+
+      <!--
+        Este ID deve permanecer como "download",
+        porque o assets/app.js utiliza este botão.
+      -->
+      <button
+        id="download"
+        type="button"
+      >
+        Baixar recorte CSV da UF selecionada
+      </button>
+    </section>
+
+    <section
+      id="downloads"
+      class="downloads-section"
+      aria-labelledby="downloads-title"
+    >
+      <p class="section-eyebrow">
+        Dados e documentação
+      </p>
+
+      <h2 id="downloads-title">
+        Downloads e materiais técnicos
+      </h2>
+
+      <p class="section-description">
+        Acesse os dados derivados e os documentos necessários
+        para compreender, auditar e reutilizar a iniciativa.
+      </p>
+
+      <div class="download-grid">
+        <a
+          class="download-card"
+          href="data/ivpd_uf_v1.json"
+          download="ivpd_uf_v1.json"
+        >
+          <strong>
+            Base completa em JSON
+          </strong>
+
+          <span>
+            Arquivo derivado utilizado pelo portal, com resultados
+            agregados das 27 unidades federativas.
+          </span>
+
+          <span class="download-card__format">
+            JSON
+          </span>
+        </a>
+
+        <a
+          class="download-card"
+          href="https://github.com/anacarvalheiro-ai/protege-dados/blob/main/data/processed/ivpd_uf_v1.csv"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <strong>
+            Base completa em CSV
+          </strong>
+
+          <span>
+            Conjunto derivado da IVPD v1.0 em formato tabular
+            reutilizável.
+          </span>
+
+          <span class="download-card__format">
+            CSV
+          </span>
+        </a>
+
+        <a
+          class="download-card"
+          href="https://github.com/anacarvalheiro-ai/protege-dados/blob/main/docs/METODOLOGIA.md"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <strong>
+            Metodologia da IVPD
+          </strong>
+
+          <span>
+            Consulte variáveis, fontes, pesos, normalização,
+            decisões técnicas e limitações.
+          </span>
+
+          <span class="download-card__format">
+            Documentação
+          </span>
+        </a>
+
+        <a
+          class="download-card"
+          href="https://github.com/anacarvalheiro-ai/protege-dados/blob/main/docs/submissao-cgu-2026/01_Memorial_Tecnico_Protege_Dados_ABNT_Atualizado.docx"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <strong>
+            Memorial técnico
+          </strong>
+
+          <span>
+            Documento institucional em padrão ABNT com a
+            apresentação completa da iniciativa.
+          </span>
+
+          <span class="download-card__format">
+            DOCX
+          </span>
+        </a>
+
+        <a
+          class="download-card"
+          href="https://github.com/anacarvalheiro-ai/protege-dados/blob/main/docs/submissao-cgu-2026/03_Relatorio_Tecnico_Evidencias_ABNT_Atualizado.docx"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <strong>
+            Relatório de evidências
+          </strong>
+
+          <span>
+            Resultados processados, verificações técnicas,
+            evidências de publicação e limitações.
+          </span>
+
+          <span class="download-card__format">
+            DOCX
+          </span>
+        </a>
+
+        <a
+          class="download-card"
+          href="https://github.com/anacarvalheiro-ai/protege-dados/tree/main/evidence"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <strong>
+            Evidências técnicas
+          </strong>
+
+          <span>
+            Manifestos, hashes, resultados consolidados e testes
+            técnicos da versão 1.0.
+          </span>
+
+          <span class="download-card__format">
+            Repositório
+          </span>
+        </a>
+      </div>
+    </section>
+
+    <section
+      id="metodo"
+      class="content-section"
+      aria-labelledby="metodo-title"
+    >
+      <p class="section-eyebrow">
+        Método aberto e documentado
+      </p>
+
+      <h2 id="metodo-title">
+        Metodologia
+      </h2>
+
+      <p>
+        O eixo experimental combina a taxa de denúncias do Disque
+        100 em 2025, com peso de 50%, o déficit de internet escolar
+        em 2024, com peso de 25%, e o déficit de banda larga escolar
+        em 2024, também com peso de 25%.
+      </p>
+
+      <p>
+        A normalização utiliza limites robustos nos percentis 5 e
+        95, reduzindo a influência de valores extremos. O eixo de
+        capacidade territorial de proteção não é publicado enquanto
+        não houver fonte comparável, territorialmente adequada e
+        metodologicamente validada.
+      </p>
+
+      <p>
+        Os resultados são apresentados de forma agregada por unidade
+        federativa. A iniciativa não identifica pessoas, não realiza
+        previsão individual e não substitui diagnósticos locais,
+        estudos especializados ou avaliações institucionais.
+      </p>
+
+      <aside
+        class="automation-note"
+        aria-labelledby="automation-title"
+      >
+        <h3 id="automation-title">
+          Publicação, versionamento e rastreabilidade
+        </h3>
+
+        <p>
+          Este portal é publicado automaticamente por meio do
+          GitHub Actions, utilizando versionamento Git e hospedagem
+          no GitHub Pages. O fluxo registra as alterações no
+          histórico de commits e contribui para a transparência,
+          rastreabilidade, reprodutibilidade e consistência entre
+          o código-fonte e a versão disponibilizada ao público.
+        </p>
+
+        <a
+          href="https://github.com/anacarvalheiro-ai/protege-dados/actions"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Consultar o histórico de publicações no GitHub Actions
+        </a>
+      </aside>
+    </section>
+
+    <section
+      id="fontes"
+      class="content-section"
+      aria-labelledby="fontes-title"
+    >
+      <p class="section-eyebrow">
+        Dados públicos oficiais
+      </p>
+
+      <h2 id="fontes-title">
+        Fontes efetivamente processadas
+      </h2>
+
+      <ul class="sources-list">
+        <li>
+          <strong>Disque 100:</strong>
+          primeiro e segundo semestres de 2025; segundo semestre
+          de 2024 utilizado como referência histórica.
+        </li>
+
+        <li>
+          <strong>IBGE:</strong>
+          estimativas municipais de população de 2024 e 2025,
+          incluindo códigos territoriais e denominadores
+          populacionais.
+        </li>
+
+        <li>
+          <strong>Inep:</strong>
+          Microdados do Censo Escolar 2024, incluindo escolas
+          ativas, matrículas, acesso à internet e banda larga.
+        </li>
+      </ul>
+
+      <p>
+        As fontes, períodos, variáveis, filtros e limitações são
+        documentados no repositório público do projeto.
+      </p>
+    </section>
+
+    <section
+      id="governanca"
+      class="content-section"
+      aria-labelledby="governanca-title"
+    >
+      <p class="section-eyebrow">
+        Uso responsável
+      </p>
+
+      <h2 id="governanca-title">
+        Governança, privacidade e integridade
+      </h2>
+
+      <p>
+        O Protege.Dados publica apenas resultados agregados e adota
+        minimização de dados, rastreabilidade das fontes,
+        documentação das transformações, versionamento, revisão
+        humana e transparência sobre limitações.
+      </p>
+
+      <p>
+        A iniciativa não publica dados pessoais, não identifica
+        vítimas ou denunciantes, não classifica indivíduos e não
+        utiliza os resultados para decisões automatizadas sobre
+        direitos ou serviços.
+      </p>
+
+      <p>
+        <a
+          href="https://github.com/anacarvalheiro-ai/protege-dados/blob/main/docs/GOVERNANCA_DADOS.md"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Consulte a documentação completa de governança dos dados
+        </a>.
+      </p>
+    </section>
+  </main>
+
+  <footer class="institutional-footer">
+    <div class="institutional-footer__content">
+      <p class="institutional-footer__title">
+        <strong>
+          Protege.Dados — IVPD v1.0
+        </strong>
+      </p>
+
+      <p class="institutional-footer__subtitle">
+        Observatório de Proteção Digital Infantojuvenil
+      </p>
+
+      <dl class="footer-metadata">
+        <div>
+          <dt>
+            Última atualização
+          </dt>
+
+          <dd>
+            12 de julho de 2026
+          </dd>
+        </div>
+
+        <div>
+          <dt>
+            Licença do código
+          </dt>
+
+          <dd>
+            <a
+              href="https://github.com/anacarvalheiro-ai/protege-dados/blob/main/LICENSE"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              MIT
+            </a>
+          </dd>
+        </div>
+
+        <div>
+          <dt>
+            Hospedagem
+          </dt>
+
+          <dd>
+            GitHub Pages
+          </dd>
+        </div>
+
+        <div>
+          <dt>
+            Publicação
+          </dt>
+
+          <dd>
+            GitHub Actions
+          </dd>
+        </div>
+
+        <div>
+          <dt>
+            Versionamento
+          </dt>
+
+          <dd>
+            Git
+          </dd>
+        </div>
+      </dl>
+
+      <p class="footer-notice">
+        Os indicadores são agregados e experimentais. A IVPD não
+        constitui ranking, não mede prevalência, não identifica
+        pessoas e não realiza previsão individual.
+      </p>
+
+      <p class="footer-author">
+        Responsável: Ana Maria Carvalheiro ·
+        Pretos Na Era Digital Ltda. ·
+        Brasília/DF
+      </p>
+    </div>
+  </footer>
+
+  <!--
+    Mantém o JavaScript original, responsável pelo seletor,
+    indicadores, barras e download CSV.
+  -->
+  <script src="assets/app.js"></script>
+</body>
+</html>
